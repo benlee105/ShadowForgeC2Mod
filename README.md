@@ -24,12 +24,3 @@ There's the [Quickstart](https://github.com/0xEr3bus/ShadowForgeC2/wiki/) Guide 
     * The shell commands are received base64 encoded, as the Zoom Message's format is terrible. The team server decodes and prints correctly.
     * Keeping this in mind, the Zoom Channels are being Man-In-The-Middle for the Command & Control Communication.
     * The Implant and Team server is not connected directly; that's been said, the probability of crashing the implant is significantly less.
-
-
-## TO-DO
-- [x] Fix the Zoom API Message Length Limit
-  - Base64 encode the command's output, Split the b64 encoded output, and send the output, as reply to the parent message.
-- [ ] Upload/Download Feature
-- [ ] Some basic Evasion
-- [ ] Dynamic Sleep Timers 
-- [ ] Self Distruct Channels
