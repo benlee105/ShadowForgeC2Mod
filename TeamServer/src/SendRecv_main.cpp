@@ -11,6 +11,20 @@
 const char* channel = "CHANNEL_ID";
 LPSTR accessToken = (LPSTR)"TOKEN";
 
+// Function: Get Proxy settings, to make the generated EXE proxy aware. Added in 13 Aug 2025
+std::string getSystemProxy() {
+    INTERNET_PROXY_INFO proxyInfo;
+    DWORD size = sizeof(proxyInfo);
+    memset(&proxyInfo, 0, sizeof(proxyInfo));
+
+    if (InternetQueryOption(NULL, INTERNET_OPTION_PROXY, &proxyInfo, &size)) {
+        if (proxyInfo.dwAccessType == INTERNET_OPEN_TYPE_PROXY && proxyInfo.lpszProxy) {
+            return std::string(proxyInfo.lpszProxy);
+        }
+    }
+    return "";
+}
+
 // Function: first4079Chars
 // Copies the first 4079 characters from the source string to the destination string.
 // Parameters:
@@ -55,21 +69,89 @@ const char* addPrefix(const char* str, const char* prefix) {
 // Returns:
 // - 0 if the connection is successfully established, 1 otherwise.
 int StartConnection(HINTERNET& hConnect) {
-    // Open an internet session
-    HINTERNET hInternet = InternetOpenA("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    // Always use the system's configured proxy settings (static, PAC, or WPAD)
+    HINTERNET hInternet = InternetOpenA(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+        INTERNET_OPEN_TYPE_PRECONFIG, // <-- This is the important change
+        NULL,                         // NULL means "use whatever the OS says"
+        NULL,
+        0
+    );
+
     if (hInternet == NULL) {
-        return 1;   // Return 1 if the internet session fails to open
+        return 1; // Return 1 if the internet session fails to open
     }
 
-    // Connect to the server
-    hConnect = InternetConnectA(hInternet, "api.zoom.us", INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)NULL);
+    // Connect to the server (example: api.example.com)
+    hConnect = InternetConnectA(
+        hInternet,
+        "api.zoom.us",           // Change to your target hostname
+        INTERNET_DEFAULT_HTTPS_PORT, // Port 443 for HTTPS
+        NULL,
+        NULL,
+        INTERNET_SERVICE_HTTP,
+        0,
+        (DWORD_PTR)NULL
+    );
+
     if (hConnect == NULL) {
-        InternetCloseHandle(hInternet);   // Close the internet session
-        return 1;   // Return 1 if the connection to the server fails
+        InternetCloseHandle(hInternet);
+        return 1; // Return 1 if the connection fails
     }
 
-    return 0;   // Return 0 if the connection is successfully established
+    return 0; // Success
 }
+
+// Function: SendRequest
+// Sends an HTTP request to a specified endpoint using WinINet library.
+// Parameters:
+// - hRequest: Reference to the HINTERNET handle that will hold the request.
+// - method: Pointer to the method string (e.g., "POST", "GET").
+// - endpoint: Pointer to the endpoint string.
+// - requestData: Pointer to the request data string.
+// Returns:
+// - 0 if the request is successfully sent, 1 otherwise.
+int SendRequest(HINTERNET& hRequest, const char* method, const char* endpoint, const char* requestData) {
+    CHAR stars[] = { '*','/','*',0 };   // A character array used as a wildcard accept type
+    LPCSTR acceptTypes[] = { stars, NULL };   // Array of accepted types for the request
+    HINTERNET hConnect;
+    StartConnection(hConnect);   // Start the connection and store it in hConnect
+
+    hRequest = HttpOpenRequestA(hConnect, method, endpoint, NULL, NULL, acceptTypes, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE, 0);
+    if (hRequest == NULL) {
+        InternetCloseHandle(hConnect);   // Close the connection
+        return 1;   // Return 1 if opening the request fails
+    }
+
+    const char* CONTENT = "Content-Type: application/json\r\nAuthorization: Bearer ";
+    char requestHeaders[4000];   // An array that will store the final headers.
+    memset(requestHeaders, 0, sizeof(requestHeaders));   // Clear the headers array by setting all its elements to 0.
+
+    lstrcatA(requestHeaders, CONTENT);   // Concatenate the Content-type header to the headers string
+    lstrcatA(requestHeaders, accessToken);   // Concatenate the access token to the headers string
+
+    int headersize = lstrlenA(requestHeaders);
+    int requestDataSize = lstrlenA(requestData);
+
+    BOOL result;
+    if (strcmp(method, "POST") == 0) {
+        result = HttpSendRequestA(hRequest, requestHeaders, (DWORD)headersize, (LPVOID)requestData, (DWORD)requestDataSize);
+    }
+    else if (strcmp(method, "GET") == 0) {
+        result = HttpSendRequestA(hRequest, requestHeaders, (DWORD)headersize, NULL, NULL);
+    }
+    else {
+        result = HttpSendRequestA(hRequest, requestHeaders, (DWORD)headersize, (LPVOID)requestData, (DWORD)requestDataSize);
+    }
+
+    if (!result) {
+        InternetCloseHandle(hConnect);   // Close the connection
+        return 1;   // Return 1 if sending the request fails
+    }
+
+    return 0;   // Return 0 if the request is successfully sent
+}
+
 
 // Function: SendRequest
 // Sends an HTTP request to a specified endpoint using WinINet library.
