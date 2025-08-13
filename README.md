@@ -5,7 +5,7 @@
 ## About ShadowForge C2
 ShadowForge C2 is an API-centric Proof of Concept, similar to other C2s. The implant works with HTTP/v2 and TLS connecting over Zoom. The approach taken by this C2 is built upon an implementation strategy that leverages the capabilities of the Zoom Messaging Channel. The implant, residing within the compromised systems, establishes a connection to a designated Zoom Messaging Channel, serving as a secure and discreet communication medium. The domain used has a valid certificate, `api.zoom.us.` 
 
-## Why I made this? Why would someone use this?
+## Purpose?
 ShadowForge is not a complete C2, and its purpose is to serve a basic understanding for beginners of how this communication works from a team server to the compromised implant. The short purpose is to learn the methodology and steps used during the communication. The C2 doesn't provide any advanced obfuscation, i.e., it's not a ready-to-use C2; This aims to provide a short introduction to using a different secure communication. To Summarize, the project is intended for other red teamers and security researchers to learn.
 
 ## Getting Started
