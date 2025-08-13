@@ -30,10 +30,10 @@ class ZoomAPI:
 
     def GenerateToken(self):
         RequiredPermissions = [
-            "chat_message:write:admin",
-            "chat_channel:write:admin",
-            "chat_channel:read:admin",
-            "chat_message:read:admin"
+            //"chat_message:write:admin",
+            //"chat_channel:write:admin",
+            //"chat_channel:read:admin",
+            //"chat_message:read:admin"
         ]
 
         Auth_Token = base64.b64encode(f"{self.ClientID}:{self.ClientSecret}".encode()).decode()
