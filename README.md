@@ -2,6 +2,11 @@
 - Updated C++ code to be proxy aware
 - Updated ZoomAPI config to not restrict only for the 4 permissions
 
+## Quick Notes
+- AV detects the EXE? Use Donut to convert to shellcode, then inject via other ways.
+- donut.exe -i <C2.exe> -f 7 -o C2.bin
+- -f 7 to output to C#
+
 ## About ShadowForge C2
 ShadowForge C2 is an API-centric Proof of Concept, similar to other C2s. The implant works with HTTP/v2 and TLS connecting over Zoom. The approach taken by this C2 is built upon an implementation strategy that leverages the capabilities of the Zoom Messaging Channel. The implant, residing within the compromised systems, establishes a connection to a designated Zoom Messaging Channel, serving as a secure and discreet communication medium. The domain used has a valid certificate, `api.zoom.us.` 
 
