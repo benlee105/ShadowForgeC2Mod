@@ -1,5 +1,8 @@
+## Updates made to code 20 Aug 2025
+- Updated SendRecv_main.cpp to filter out `","custom_emoji":fals` when doing requests to /v2/chat/users/me/messages
+
 ## Updates made to ShadowForge C2 code 13 Aug 2025
-- Updated C++ code to be proxy aware
+- Updated SendRecv_main.cpp to be proxy aware
 - Updated ZoomAPI config to not restrict only for the 4 permissions
 
 ## Quick Notes
