@@ -1,9 +1,5 @@
-## Updates 20 Aug 2025
-- Updated **SendRecv_main.cpp** to filter out `","custom_emoji":fals` when doing requests to /v2/chat/users/me/messages
-
-## Updates 13 Aug 2025
-- Updated **SendRecv_main.cpp** to be proxy aware
-- Updated **ZoomAPI.py** to not restrict only for the 4 permissions
+## Getting Started
+There's the [Quickstart](https://github.com/benlee105/ShadowForgeC2Mod/wiki/Instructions) Guide to setting up and running everything.
 
 ## Detected by AV?
 - AV detects the EXE?
@@ -11,16 +7,20 @@
 - donut.exe -i <C2.exe> -f 7 -o C2.bin
 - -f 7 to output to C#
 
-## Getting Started
-There's the [Quickstart](https://github.com/benlee105/ShadowForgeC2Mod/wiki/Instructions) Guide to setting up and running everything.
+## Updates 20 Aug 2025
+- Updated **TeamServer/src/SendRecv_main.cpp** to filter out `","custom_emoji":fals` when doing requests to /v2/chat/users/me/messages
 
-## About ShadowForge C2
+## Updates 13 Aug 2025
+- Updated **TeamServer/src/SendRecv_main.cpp** to be proxy aware
+- Updated **TeanServer/ZoomAPI.py** to not restrict only for the 4 permissions
+
+## About ShadowForge C2 (from Original Author)
 ShadowForge C2 is an API-centric Proof of Concept, similar to other C2s. The implant works with HTTP/v2 and TLS connecting over Zoom. The approach taken by this C2 is built upon an implementation strategy that leverages the capabilities of the Zoom Messaging Channel. The implant, residing within the compromised systems, establishes a connection to a designated Zoom Messaging Channel, serving as a secure and discreet communication medium. The domain used has a valid certificate, `api.zoom.us.` 
 
-## Purpose?
+## Purpose? (from Original Author)
 ShadowForge is not a complete C2, and its purpose is to serve a basic understanding for beginners of how this communication works from a team server to the compromised implant. The short purpose is to learn the methodology and steps used during the communication. The C2 doesn't provide any advanced obfuscation, i.e., it's not a ready-to-use C2; This aims to provide a short introduction to using a different secure communication. To Summarize, the project is intended for other red teamers and security researchers to learn.
 
-## How this works
+## How this works (from Original Author)
 * Implant
     * A C++-compiled implant, when executed, sends the very first call back to a Zoom Chat Channel, hardcoded in the executable.
     * Every 10 seconds, the implant checks for any updated command to execute; if the command is in this format `command: <COMMAND>,` the implant executes the command.
