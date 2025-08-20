@@ -1,9 +1,9 @@
 ## Updates 20 Aug 2025
-- Updated SendRecv_main.cpp to filter out `","custom_emoji":fals` when doing requests to /v2/chat/users/me/messages
+- Updated **SendRecv_main.cpp** to filter out `","custom_emoji":fals` when doing requests to /v2/chat/users/me/messages
 
 ## Updates 13 Aug 2025
-- Updated SendRecv_main.cpp to be proxy aware
-- Updated ZoomAPI.py to not restrict only for the 4 permissions
+- Updated **SendRecv_main.cpp** to be proxy aware
+- Updated **ZoomAPI.py** to not restrict only for the 4 permissions
 
 ## Detected by AV?
 - AV detects the EXE?
