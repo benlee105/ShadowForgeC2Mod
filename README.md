@@ -1,8 +1,7 @@
 ## Getting Started
 There's the [Quickstart](https://github.com/benlee105/ShadowForgeC2Mod/wiki/Instructions) Guide to setting up and running everything.
 
-## Detected by AV?
-- AV detects the EXE?
+## EXE Payload Detected by AV?
 - Use https://github.com/TheWover/donut to convert to shellcode, then inject via other ways.
 - donut.exe -i <C2.exe> -f 7 -o C2.bin
 - -f 7 to output to C#
