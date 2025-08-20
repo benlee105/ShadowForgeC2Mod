@@ -1,4 +1,4 @@
-## Updates made to ShadowForge C2 code
+## Updates made to ShadowForge C2 code 13 Aug 2025
 - Updated C++ code to be proxy aware
 - Updated ZoomAPI config to not restrict only for the 4 permissions
 
