@@ -3,7 +3,7 @@
 
 ## Updates 13 Aug 2025
 - Updated SendRecv_main.cpp to be proxy aware
-- Updated ZoomAPI config to not restrict only for the 4 permissions
+- Updated ZoomAPI.py to not restrict only for the 4 permissions
 
 ## Quick Notes
 - AV detects the EXE? Use Donut to convert to shellcode, then inject via other ways.
