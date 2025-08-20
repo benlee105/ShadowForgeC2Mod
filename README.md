@@ -5,8 +5,9 @@
 - Updated SendRecv_main.cpp to be proxy aware
 - Updated ZoomAPI.py to not restrict only for the 4 permissions
 
-## Quick Notes
-- AV detects the EXE? Use Donut to convert to shellcode, then inject via other ways.
+## Detected by AV?
+- AV detects the EXE?
+- Use https://github.com/TheWover/donut to convert to shellcode, then inject via other ways.
 - donut.exe -i <C2.exe> -f 7 -o C2.bin
 - -f 7 to output to C#
 
